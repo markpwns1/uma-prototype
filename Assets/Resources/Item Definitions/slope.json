@@ -1,0 +1,6 @@
+{
+  "id": "slope",
+  "name": "Slope",
+  "placementPrefabPath": "Placement Prefabs/Slope Placement",
+  "iconPath": "Item Icons/slope"
+}

@@ -1,6 +1,8 @@
 
 using UnityEngine;
 
+// Represents a certain amount of an item
+// The body of this class is pretty self-explanatory
 public class ItemStack
 {
     public ItemDefinition Item { get; }

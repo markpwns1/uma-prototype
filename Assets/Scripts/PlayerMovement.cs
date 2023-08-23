@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// My apologies for this script, physics is always a mess
+// How this character controller works, is it uses a rigidbody to move the player around
+// with instant acceleration because it feels more responsive that way, and non-instant
+// deceleration because it feels smoother that way.
 public class PlayerMovement : MonoBehaviour {
 
     [Header("Basic Movement")]
@@ -32,7 +36,7 @@ public class PlayerMovement : MonoBehaviour {
     public float groundedRaycastDistance = 1.1f;
 
     private Rigidbody _rigidbody;
-    private float _originalFOV;
+    private float _originalFOV; // The FOV of the camera when not sprinting
     
     private bool _isSprinting;
     
@@ -44,6 +48,7 @@ public class PlayerMovement : MonoBehaviour {
     private float _sideInput;
     private bool _jumpInput;
     
+    // Whether or not the player is moving
     public bool IsMoving { get; private set; }
     
 	void Start ()
@@ -118,10 +123,13 @@ public class PlayerMovement : MonoBehaviour {
         _rigidbody.velocity = vel;
     }
 
+    // Handles jumping
     void Jumping()
     {
         if (jumpAllowed && IsGrounded())
         {
+            // If jumping is allowed, the player is grounded, the player presses the jump key, and is not on cooldown,
+            // let them jump!
             if (_jumpInput && _canJump)
             {
                 var vel = _rigidbody.velocity;
@@ -130,6 +138,7 @@ public class PlayerMovement : MonoBehaviour {
 
                 _canJump = false;
             }
+            // If the player is not allowed to jump yet, start the timer to let them jump again!
             else if(!_canJump && !_jumpTimerTicking)
             {
                 _jumpTimerTicking = true;
@@ -138,6 +147,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    // Waits jumpDelay seconds then lets the player jump again
     IEnumerator JumpTimer()
     {
         yield return new WaitForSeconds(jumpDelay);
@@ -148,12 +158,17 @@ public class PlayerMovement : MonoBehaviour {
     void Movement()
     {
         var fwd = _forwardInput;
+        
+        // Select between backwards speed, forwards speed, or sprint speed for the Z axis
         fwd = fwd < 0 ? fwd * backwardsSpeed : (_isSprinting ? fwd * sprintVelocity : fwd * forwardSpeed);
 
         var side = _sideInput * sidewaysSpeed;
 
         var vel = _rigidbody.velocity;
 
+        // If the player is moving forwards or sideways, reset their speed in that direction to zero
+        // because later on we will be adding the new speed to the current speed
+        
         var localVel_0 = transform.InverseTransformDirection(vel);
 
         if(fwd != 0)
@@ -169,6 +184,9 @@ public class PlayerMovement : MonoBehaviour {
         IsMoving = fwd != 0 || side != 0;
 
         vel = transform.TransformDirection(localVel_0);
+        
+        // Add the new speed to the current speed (after resetting to zero, it ends up
+        // being the same as just setting the speed to the new value)
 
         var camFwd = transform.forward;
         camFwd.y = 0;
@@ -176,6 +194,8 @@ public class PlayerMovement : MonoBehaviour {
         vel += camFwd * fwd;
         vel += Camera.main.transform.right * side;
 
+        // If the player is not moving forwards or sideways, damp their speed in that direction
+        // to simulate friction
         var localVel = transform.InverseTransformDirection(vel);
 
         if(fwd == 0)
@@ -188,7 +208,9 @@ public class PlayerMovement : MonoBehaviour {
             localVel.x *= Mathf.Pow(floatiness, Time.deltaTime * 50f);
         }
 
-        _rigidbody.velocity = transform.TransformDirection(localVel);
+        vel = transform.TransformDirection(localVel);
+        
+        _rigidbody.velocity = vel;
     }
 
 }

@@ -33,11 +33,6 @@ Shader "Custom/Block Preview"
         fixed3 _ValidColour;
         fixed3 _InvalidColour;
 
-        // half4 LightingUnlit(SurfaceOutput s, half3 lightDir, half atten)
-        // {
-        //     return half4(s.Albedo, s.Alpha);
-        // }
-
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
         // #pragma instancing_options assumeuniformscaling

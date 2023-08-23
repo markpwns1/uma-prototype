@@ -6,27 +6,34 @@ using Button = UnityEngine.UI.Button;
 public class Inventory : MonoBehaviour
 {
     [Header("References")] 
-    public BlockPlacer blockPlacer;
-    public GameObject inventoryUI;
-    public GameObject itemSlotPrefab;
-    public Transform itemSlotContainer;
+    public BlockPlacer blockPlacer; // The block placer script attached to the player
+    public GameObject inventoryUI; // To toggle on and off when the inventory is opened and closed
+    public GameObject itemSlotPrefab; // The prefab for the item slots that populate the inventory
+    public Transform itemSlotContainer; // The container that holds all the item slots
     
     private bool isOpen = false;
     
     public readonly List<InventoryItemStack> stacks = new List<InventoryItemStack>();
     
+    // See below method
     public ItemStack AddItem(string id, int quantity)
     {
         var item = ItemRegistry.GetItem(id);
         return AddItem(item, quantity);
     }
     
+    // Adds an item to the inventory. Returns the stack that the item was added to
     public ItemStack AddItem(ItemDefinition item, int quantity)
     {
+        // If the item is already in the inventory, add to the stack, otherwise
+        // create a new stack
+        
         var stack = stacks.Find(x => x.Item == item);
         if (stack == null)
         {
             stack = new InventoryItemStack(item, 0, itemSlotPrefab, itemSlotContainer);
+            
+            // Make the item slot select the stack for placing when clicked
             stack.Slot.GetComponent<Button>().onClick.AddListener(() =>
             {
                 blockPlacer.Select(stack);
@@ -39,12 +46,14 @@ public class Inventory : MonoBehaviour
         return stack;
     }
     
+    // See below method
     public int RemoveItem(string id, int quantity)
     {
         var item = ItemRegistry.GetItem(id);
         return RemoveItem(item, quantity);
     }
     
+    // Removes an item from the inventory. Returns the amount of items removed
     public int RemoveItem(ItemDefinition item, int quantity)
     {
         var stack = stacks.Find(x => x.Item == item);
@@ -63,35 +72,41 @@ public class Inventory : MonoBehaviour
         return removed;
     }
     
+    // See below method
     public int GetQuantity(string id)
     {
         var item = ItemRegistry.GetItem(id);
         return GetQuantity(item);
     }
     
+    // Returns the amount of the given item in the inventory
     public int GetQuantity(ItemDefinition item)
     {
         var stack = stacks.Find(x => x.Item == item);
         return stack?.Quantity ?? 0;
     }
     
+    // See below method
     public bool HasItem(string id, int quantity)
     {
         var item = ItemRegistry.GetItem(id);
         return HasItem(item, quantity);
     }
     
+    // Returns true if the inventory has at least a certain amount of the given item
     public bool HasItem(ItemDefinition item, int quantity)
     {
         var stack = stacks.Find(x => x.Item == item);
         return stack != null && stack.Quantity >= quantity;
     }
     
+    // Gets the item stack with the given item id
     public ItemStack GetItemStack(string id)
     {
         return stacks.Find(x => x.Item.ID == id);
     }
 
+    // Hardcoded inventory initialization for testing
     void Start()
     {
         AddItem("cubit0", 5);
@@ -105,17 +120,20 @@ public class Inventory : MonoBehaviour
         AddItem("weird", 4);
         AddItem("cross", 5);
         AddItem("donut", 3);
+        AddItem("slope", 15);
         blockPlacer.Select(GetItemStack("cubit0"));
     }
 
     void Update()
     {
+        // Tab toggles the inventory
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             SetOpen(!isOpen);
         }
     }
 
+    // Opens or closes the inventory
     public void SetOpen(bool open)
     {
         isOpen = open;
