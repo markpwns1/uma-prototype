@@ -1,0 +1,6 @@
+{
+  "id": "donut",
+  "name": "Donut",
+  "placementPrefabPath": "Placement Prefabs/Donut Placement",
+  "iconPath": "Item Icons/donut"
+}

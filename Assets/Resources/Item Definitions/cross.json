@@ -1,0 +1,6 @@
+{
+  "id": "cross",
+  "name": "Cross",
+  "placementPrefabPath": "Placement Prefabs/Cross Placement",
+  "iconPath": "Item Icons/cross"
+}

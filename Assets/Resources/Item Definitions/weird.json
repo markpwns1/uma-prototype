@@ -1,0 +1,6 @@
+{
+  "id": "weird",
+  "name": "Weird",
+  "placementPrefabPath": "Placement Prefabs/Weird Placement",
+  "iconPath": "Item Icons/weird"
+}

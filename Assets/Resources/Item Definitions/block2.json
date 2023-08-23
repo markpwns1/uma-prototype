@@ -1,0 +1,6 @@
+{
+  "id": "block2",
+  "name": "Block",
+  "placementPrefabPath": "Placement Prefabs/Block 2 Placement",
+  "iconPath": "Item Icons/block2"
+}
