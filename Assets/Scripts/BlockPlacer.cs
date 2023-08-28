@@ -102,7 +102,7 @@ public class BlockPlacer : MonoBehaviour
         Destroy(block.gameObject);
 
         // If there's no item currently selected to place, just make that one the selected item
-        if (placingSlot.Stack == null)
+        if (placingSlot.Stack == null && itemStack != null)
         {
             Select(itemStack);
         }
@@ -114,7 +114,7 @@ public class BlockPlacer : MonoBehaviour
         if (MouseLockManager.IsMouseLocked && Input.GetMouseButtonDown(1))
         {
             // Note: static objects cannot be destroyed
-            if(Physics.Raycast(_camera.position, _camera.forward, out var hit, _distance + 1.0f, PlacingLayerMask) && !hit.collider.gameObject.isStatic)
+            if(Physics.Raycast(_camera.position, _camera.forward, out var hit, _distance + 1.0f, PlacingLayerMask) && !hit.collider.gameObject.CompareTag("Indestructible"))
             {
                 DestroyBlock(hit.transform.root);
                 return;

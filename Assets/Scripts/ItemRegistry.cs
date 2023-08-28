@@ -46,6 +46,12 @@ public class ItemRegistry : MonoBehaviour
         return found;
     }
 
+    // Returns true if an item with the given ID exists
+    public static bool ExistsItem(string id)
+    {
+        return Items.Exists(x => x.ID == id);
+    }
+
     // Initialise the registry on awake
     void Awake()
     {

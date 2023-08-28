@@ -27,6 +27,8 @@ public class Inventory : MonoBehaviour
     // Adds an item to the inventory. Returns the stack that the item was added to
     public ItemStack AddItem(ItemDefinition item, int quantity)
     {
+        if (item == null) return null;
+        
         // If the item is already in the inventory, add to the stack, otherwise
         // create a new stack
         
