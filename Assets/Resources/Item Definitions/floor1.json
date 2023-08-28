@@ -1,6 +1,8 @@
 {
   "id": "floor1",
   "name": "Floor",
+  "size": "large",
   "placementPrefabPath": "Placement Prefabs/Floor 1 Placement",
+  "renderPrefabPath": "Prefabs/Floor 1",
   "iconPath": "Item Icons/floor1"
 }

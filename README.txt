@@ -13,13 +13,17 @@ CONTROLS:
  - R to rotate the current block
  - MOUSE SCROLLWHEEL to move the selected block closer or farther from you
  
-Here's my prototype. I was busy the second day, so I had to complete this in only one day. The art is programmer
-art of course, and the UI is not as slick as I would like, but the block placing mechanic is extremely robust, and
-the character controller is nice and responsive.
+Here's my prototype. The art is programmer art of course, but the inventory is simple to use, the block placing 
+mechanic is extremely robust, and the character controller is nice and responsive.
 
 Included are the following features:
  - Block placing and removing, with rotation
  - An inventory system and block selection
+ - Filter blocks by size in the inventory
+ - Support for filtering by arbitrary predicates
+ - Automatically generated 3D block icons in the inventory
+ - Support for custom icons in the inventory rather than the automatically generated ones
+ - Real-time renders of blocks upon hovering over them in the inventory
  - A physics-based character controller with jumping and sprinting
  - Special block shapes as described in the document
  - Support for non-cubic blocks and blocks with arbitrary models, shapes, and shaders
@@ -32,12 +36,16 @@ kind of block to be placed, no matter how weird its shape.
 Raycasting and boxcasting makes little sense from both a gameplay and technical perspective given the weird shapes 
 described in the document, so I opted for a more robust (if not slightly annoying) solution, which is that the player 
 will simply place blocks N metres in front of them, where N is adjustable with the scroll wheel. This way you can 
-place blocks easily no matter what awkward angle you're looking at them from, and you have total control over the exact 
-position it'll be placed at.
+place blocks easily no matter what awkward angle you're looking at them from, and you have total control over the 
+exact position it'll be placed at.
 
 The blocks are defined in JSON in the resources folder, and the block models and preview models are loaded from
-there too, as well as the icons. The green and red translucent block preview is done with a custom surface shader. 
-(Evidently, I'm using the standard render pipeline).
+there too, as well as the icons and the tooltip render prefab. The green and red translucent block preview is done 
+with a custom surface shader. (Evidently, I'm using the standard render pipeline).
+
+As for the real-time block renders, that's accomplished with another camera rendering just the item, rendered to a
+RenderTexture, which is then displayed in the tooltip on hover. The pre-generated item icons are the same, only 
+rendered once at the beginning of the game and cached.
 
 One thing to note is that performance-wise, this is definitely not scalable at the moment. If you wanted to expand
 this prototype to a full game, I'm afraid a dedicated voxel engine is the way to go if you want to allow the player

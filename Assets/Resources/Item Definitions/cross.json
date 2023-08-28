@@ -1,6 +1,8 @@
 {
   "id": "cross",
   "name": "Cross",
+  "size": "large",
   "placementPrefabPath": "Placement Prefabs/Cross Placement",
+  "renderPrefabPath": "Prefabs/Cross",
   "iconPath": "Item Icons/cross"
 }

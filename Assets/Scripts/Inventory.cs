@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
@@ -34,11 +36,14 @@ public class Inventory : MonoBehaviour
             stack = new InventoryItemStack(item, 0, itemSlotPrefab, itemSlotContainer);
             
             // Make the item slot select the stack for placing when clicked
-            stack.Slot.GetComponent<Button>().onClick.AddListener(() =>
+            stack.Slot.Button.onClick.AddListener(() =>
             {
                 blockPlacer.Select(stack);
                 SetOpen(false);
             });
+
+            stack.Slot.OnHoverEnter = TooltipManager.BeginHover;
+            stack.Slot.OnHoverExit = TooltipManager.EndHover;
             
             stacks.Add(stack);
         }
@@ -105,9 +110,43 @@ public class Inventory : MonoBehaviour
     {
         return stacks.Find(x => x.Item.ID == id);
     }
+    
+    // Apply a filter to every item slot in the inventory
+    public void ApplyFilter(Func<ItemDefinition, bool> filter)
+    {
+        foreach (var stack in stacks)
+        {
+            stack.ApplyFilter(filter);
+        }
+    }
+    
+    // Clear the filter on every item slot in the inventory
+    public void ClearFilter()
+    {
+        foreach (var stack in stacks)
+        {
+            stack.Slot.SetBright();
+        }
+    }
 
-    // Hardcoded inventory initialization for testing
+    // Make sure to add the items after the icons are all rendered, otherwise we'd get
+    // a bunch of null (white) icons. Ideally this sort of thing would be done
+    // in a dedicated loading phase, but since it's just a prototype and this is
+    // a unique case, I'm just doing it here.
     void Start()
+    {
+        if (ItemRenderManager.IconsRendered)
+        {
+            Populate();
+        }
+        else
+        {
+            ItemRenderManager.OnIconsRendered += Populate;
+        }
+    }
+    
+    // Hardcoded inventory initialization for testing
+    private void Populate()
     {
         AddItem("cubit0", 5);
         AddItem("cubit1", 50);
@@ -147,6 +186,7 @@ public class Inventory : MonoBehaviour
         else
         {
             MouseLockManager.ReleaseMouse();
+            TooltipManager.EndHover();
         }
     }
 }

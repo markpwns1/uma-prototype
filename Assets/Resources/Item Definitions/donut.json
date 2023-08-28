@@ -1,6 +1,8 @@
 {
   "id": "donut",
   "name": "Donut",
+  "size": "large",
   "placementPrefabPath": "Placement Prefabs/Donut Placement",
+  "renderPrefabPath": "Prefabs/Donut",
   "iconPath": "Item Icons/donut"
 }

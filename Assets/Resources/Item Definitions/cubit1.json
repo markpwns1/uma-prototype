@@ -1,6 +1,8 @@
 {
   "id": "cubit1",
   "name": "Cubit (Beige)",
+  "size": "small",
   "placementPrefabPath": "Placement Prefabs/Cubit 1 Placement",
+  "renderPrefabPath": "Prefabs/Cubit 1",
   "iconPath": "Item Icons/cubit1"
 }

@@ -1,6 +1,8 @@
 {
   "id": "pole3",
   "name": "Pole",
+  "size": "medium",
   "placementPrefabPath": "Placement Prefabs/Pole 3 Placement",
+  "renderPrefabPath": "Prefabs/Pole 3",
   "iconPath": "Item Icons/pole3"
 }

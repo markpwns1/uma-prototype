@@ -1,6 +1,9 @@
 {
   "id": "slope",
   "name": "Slope",
+  "size": "medium",
   "placementPrefabPath": "Placement Prefabs/Slope Placement",
+  "renderPrefabPath": "Prefabs/Slope",
+  "renderOffset": {"x": -0.2, "y": -0.2, "z": -0.2},
   "iconPath": "Item Icons/slope"
 }

@@ -1,6 +1,8 @@
 {
   "id": "weird",
-  "name": "Weird",
+  "name": "Weird Shape",
+  "size": "large",
   "placementPrefabPath": "Placement Prefabs/Weird Placement",
+  "renderPrefabPath": "Prefabs/Weird",
   "iconPath": "Item Icons/weird"
 }

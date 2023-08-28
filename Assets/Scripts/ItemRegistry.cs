@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ public class ItemRegistry : MonoBehaviour
     private const string ItemDefinitionsPath = "Item Definitions";
     
     private static readonly List<ItemDefinition> Items = new List<ItemDefinition>();
+    public static ItemDefinition[] AllItems => Items.ToArray();
 
     // Loads all the item definition json files in the item definitions folder
     private static void LoadAll()
@@ -17,16 +19,16 @@ public class ItemRegistry : MonoBehaviour
 
         foreach (var file in files)
         {
-            var item = JsonConvert.DeserializeObject<ItemDefinition>(file.text);
-            if (item == null)
+            try
             {
-                Debug.LogError("Failed to load item definition: " + file.name);
-            }
-            else
-            {
+                var item = JsonConvert.DeserializeObject<ItemDefinition>(file.text);
                 // Load the item's icon and placement prefab immediately
                 item.LoadResources();
                 Items.Add(item);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Failed to load item definition: " + file.name);
             }
         }
         

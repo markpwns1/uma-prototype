@@ -1,6 +1,9 @@
 {
   "id": "wall0",
   "name": "Wall",
+  "size": "medium",
   "placementPrefabPath": "Placement Prefabs/Wall 0 Placement",
+  "renderPrefabPath": "Prefabs/Wall 0",
+  "renderOffset": {"x": -0.2, "y": 0.0, "z": 0.0},
   "iconPath": "Item Icons/wall0"
 }

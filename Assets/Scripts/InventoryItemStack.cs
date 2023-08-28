@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 // A type of ItemStack that has a UI element (an item slot) associated with it
 public class InventoryItemStack : ItemStack
@@ -10,6 +12,7 @@ public class InventoryItemStack : ItemStack
     {
         var slotObject = Object.Instantiate(slotPrefab, slotParent);
         Slot = slotObject.GetComponent<ItemSlotUI>();
+        Slot.Init();
         Slot.SetItemStack(this);   
     }
 
@@ -32,5 +35,12 @@ public class InventoryItemStack : ItemStack
     public override void Destroy()
     {
         Object.Destroy(Slot.gameObject);
+    }
+    
+    // Applies a filter to the item slot, to highlight it if it passes the filter
+    public void ApplyFilter(Func<ItemDefinition, bool> filter)
+    {
+        if(filter(Item)) Slot.SetBright();
+        else Slot.SetDark();
     }
 }
